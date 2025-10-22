@@ -1,0 +1,26 @@
+# Requirements for DQN Market Price Competition Simulation
+
+# Core dependencies
+torch>=1.13.0           # Deep learning framework for DQN
+numpy>=1.21.0           # Numerical computing
+matplotlib>=3.5.0       # Plotting and visualization
+gymnasium>=0.28.0       # RL environment (successor to gym)
+scipy>=1.9.0            # Scientific computing for Nash/Monopoly calculations
+
+# Data analysis and visualization
+pandas>=1.5.0           # Data manipulation and analysis
+seaborn>=0.12.0         # Statistical data visualization
+
+# Optional but recommended
+tqdm>=4.65.0            # Progress bars
+tensorboard>=2.11.0     # Training visualization (optional)
+
+# Jupyter notebook support
+jupyter>=1.0.0          # Jupyter notebooks
+ipykernel>=6.0.0        # IPython kernel for Jupyter
+notebook>=6.5.0         # Jupyter notebook package
+
+# Development tools (optional)
+pytest>=7.0.0           # Testing framework
+black>=22.0.0           # Code formatting
+pylint>=2.15.0          # Code linting
