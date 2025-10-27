@@ -86,7 +86,7 @@ where:
 - $e^0$ = outside option (consumers can choose not to buy, meaning net utility = 0)
 
 In this context, each firm employs an independent pricing algorithm, produces a product with a given quality $g$, incurs a marginal cost $c$, and sets product prices as $p_i$. Algorithms can set prices simultaneously, aiming to maximize their users' long-term profits. Consumers then choose products based on these prices. The profit for firm $i$ is given by,
-$$ π_i = d_i × (p_i - c).$$
+$$π_i = d_i × (p_i - c).$$
 
 In the perfect competition setting, all firms will set price at the Nash-equilibrium level $p^N$, and have no incentive to unilaterally deviate from their pricing strategies. However, if firms coordinate their pricing strategies without any impediment, they would act like one single entity and maximize collective profits by pricing at monopoly level $p^M$ that is much higher than Nash price $p^N$.
 
