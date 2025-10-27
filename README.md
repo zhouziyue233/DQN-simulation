@@ -86,14 +86,17 @@ where:
 - $e^0$ = outside option (consumers can choose not to buy, meaning net utility = 0)
 
 In this context, each firm employs an independent pricing algorithm, produces a product with a given quality $g$, incurs a marginal cost $c$, and sets product prices as $p_i$. Algorithms can set prices simultaneously, aiming to maximize their users' long-term profits. Consumers then choose products based on these prices. The profit for firm $i$ is given by,
+
 $$π_i = d_i × (p_i - c).$$
 
 In the perfect competition setting, all firms will set price at the Nash-equilibrium level $p^N$, and have no incentive to unilaterally deviate from their pricing strategies. However, if firms coordinate their pricing strategies without any impediment, they would act like one single entity and maximize collective profits by pricing at monopoly level $p^M$ that is much higher than Nash price $p^N$.
 
 In logit Bertrand model, firms determine the Nash price $p^N$ by optimizing their respective profit functions with respect to the price:
+
 $$\frac{d}{dp_i}\pi_i=\frac{d}{dp_i}\left(\left(p_i-c_i\right)d_i\right)=0$$
 
 To determine the monopoly price $p^M$, firms need to optimize the total profit:
+
 $$\pi\left(p_0,p_1\right)=\sum_{i=0}^{1}{\left(p_i-c_i\right)d_i\left(p_i,p_{-i}\right)}$$ 
 
 In practice, although analytical solutions to these functions are generally unavailable, numerical methods (eg. Newton–Raphson method) can be employed to approximate the solution.
