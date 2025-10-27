@@ -125,12 +125,16 @@ class MarketSimulation:
     def train(self, episodes: Optional[int] = None):
         """
         Train agents in the market environment
-        
+
         Args:
-            episodes: Number of training episodes (default from config)
+            episodes: Number of training episodes (default from experiment config or TRAINING_CONFIG)
         """
         if episodes is None:
-            episodes = TRAINING_CONFIG['training_phase']['episodes']
+            # Use experiment-specific training episodes if available, otherwise use global default
+            if 'training' in self.experiment_config and 'episodes' in self.experiment_config['training']:
+                episodes = self.experiment_config['training']['episodes']
+            else:
+                episodes = TRAINING_CONFIG['training_phase']['episodes']
         
         max_steps = TRAINING_CONFIG['training_phase']['max_steps_per_episode']
         print_interval = TRAINING_CONFIG['training_phase']['print_interval']

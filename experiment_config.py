@@ -3,10 +3,11 @@ Experiment Configuration for DQN Market Simulation
 
 This file contains all experimental parameter settings based on the README.md
 experiment design specification. It includes configurations for:
-- Basic 2-agent symmetric simulation
-- Extended 3-agent symmetric simulation  
-- Extended 4-agent symmetric simulation
-- Extended 4-agent asymmetric simulation
+- Experiment 1: Basic 2-firm symmetric simulation
+- Experiment 2: Extended 3-firm symmetric simulation
+- Experiment 3: Extended 4-firm symmetric simulation
+- Experiment 4: Extended 3-firm asymmetric simulation
+- Experiment 5: Extended 4-firm asymmetric simulation
 """
 
 import numpy as np
@@ -25,13 +26,13 @@ DQN_HYPERPARAMS = {
         'learning_rates': [0.01, 0.05, 0.1],  # Test multiple learning rates
         'default_lr': 0.01,
         'optimizer': 'adam',
-        'gamma': 0.95,  # Discount factor
+        'gamma': 0.98,  # Discount factor (increased from 0.95 to promote collusion)
         'tau': 1e-3,    # Soft update parameter
     },
     'exploration': {
         'epsilon_start': 1.0,
         'epsilon_min': 0.01,
-        'epsilon_decay': 0.995,
+        'epsilon_decay': 0.998,  # Slowed down from 0.995 to allow more exploration
     },
     'experience_replay': {
         'buffer_size': 100000,
@@ -69,33 +70,37 @@ TRAINING_CONFIG = {
 EXPERIMENT_2FIRM_SYMMETRIC = {
     'name': '2-Firm Symmetric',
     'description': 'Basic DQN simulation with 2 symmetric firms',
-    
+
     'market_structure': {
         'n_firms': 2,
         'n_actions': 15,  # Discrete price actions
     },
-    
+
     'firm_parameters': {
         'marginal_costs': [1.0, 1.0],  # c = 1 for both firms
         'product_qualities': [2.0, 2.0],  # g = 2 for both firms
     },
-    
+
     'market_parameters': {
-        'substitutability': 0.25,  # μ = 0.25
+        'substitutability': 0.4,  # μ = 0.4
         'outside_option': 0.0,  # Normalized to 0
     },
-    
+
     'benchmarks': {
-        'nash_price': 1.473,
-        'monopoly_price': 1.925,
-        'nash_profit': 0.223,
-        'monopoly_profit': 0.337,
+        'nash_price': 1.677,
+        'monopoly_price': 2.071,
+        'nash_profit': 0.277,
+        'monopoly_profit': 0.335,
     },
-    
+
     'price_range': {
         'xi': 0.1,  # Price range parameter ξ
-        'min_price': 1.428,  # p_N - ξ(p_M - p_N)
-        'max_price': 1.970,  # p_M + ξ(p_M - p_N)
+        'min_price': 1.637,  # p_N - ξ(p_M - p_N)
+        'max_price': 2.110,  # p_M + ξ(p_M - p_N)
+    },
+
+    'training': {
+        'episodes': 2000,  # Basic simulation uses 2000 episodes
     },
 }
 
@@ -106,33 +111,37 @@ EXPERIMENT_2FIRM_SYMMETRIC = {
 EXPERIMENT_3FIRM_SYMMETRIC = {
     'name': '3-Firm Symmetric',
     'description': 'Extended DQN simulation with 3 symmetric firms',
-    
+
     'market_structure': {
         'n_firms': 3,
         'n_actions': 15,
     },
-    
+
     'firm_parameters': {
         'marginal_costs': [1.0, 1.0, 1.0],
         'product_qualities': [2.0, 2.0, 2.0],
     },
-    
+
     'market_parameters': {
-        'substitutability': 0.25,
+        'substitutability': 0.4,  # μ = 0.4
         'outside_option': 0.0,
     },
-    
+
     'benchmarks': {
-        'nash_price': 1.370,
-        'monopoly_price': 2.000,
-        'nash_profit': 0.120,
-        'monopoly_profit': 0.250,
+        'nash_price': 1.521,
+        'monopoly_price': 2.252,
+        'nash_profit': 0.121,
+        'monopoly_profit': 0.213,
     },
-    
+
     'price_range': {
         'xi': 0.1,
-        'min_price': 1.307,  # p_N - ξ(p_M - p_N)
-        'max_price': 2.063,  # p_M + ξ(p_M - p_N)
+        'min_price': 1.510,  # Common range for 3-firm scenarios
+        'max_price': 2.235,  # Common range for 3-firm scenarios
+    },
+
+    'training': {
+        'episodes': 1000,  # Extended simulation uses 1000 episodes
     },
 }
 
@@ -143,82 +152,143 @@ EXPERIMENT_3FIRM_SYMMETRIC = {
 EXPERIMENT_4FIRM_SYMMETRIC = {
     'name': '4-Firm Symmetric',
     'description': 'Extended DQN simulation with 4 symmetric firms',
-    
+
     'market_structure': {
         'n_firms': 4,
         'n_actions': 15,
     },
-    
+
     'firm_parameters': {
         'marginal_costs': [1.0, 1.0, 1.0, 1.0],
         'product_qualities': [2.0, 2.0, 2.0, 2.0],
     },
-    
+
     'market_parameters': {
-        'substitutability': 0.25,
+        'substitutability': 0.4,  # μ = 0.4
         'outside_option': 0.0,
     },
-    
+
     'benchmarks': {
-        'nash_price': 1.331,
-        'monopoly_price': 2.054,
-        'nash_profit': 0.081,
-        'monopoly_profit': 0.201,
+        'nash_price': 1.521,
+        'monopoly_price': 2.252,
+        'nash_profit': 0.121,
+        'monopoly_profit': 0.213,
     },
-    
+
     'price_range': {
         'xi': 0.1,
-        'min_price': 1.259,  # p_N - ξ(p_M - p_N)
-        'max_price': 2.126,  # p_M + ξ(p_M - p_N)
+        'min_price': 1.448,  # Common range for 4-firm scenarios
+        'max_price': 2.325,  # Common range for 4-firm scenarios
+    },
+
+    'training': {
+        'episodes': 1000,  # Extended simulation uses 1000 episodes
     },
 }
 
 # ===============================================================================
-# Experiment 4: Extended 4-Agent Asymmetric Simulation
+# Experiment 4: Extended 3-Agent Asymmetric Simulation
+# ===============================================================================
+
+EXPERIMENT_3FIRM_ASYMMETRIC = {
+    'name': '3-Firm Asymmetric',
+    'description': 'Extended DQN simulation with 3 firms having asymmetric parameters',
+
+    'market_structure': {
+        'n_firms': 3,
+        'n_actions': 15,
+    },
+
+    'firm_parameters': {
+        'marginal_costs': [1.1, 1.00, 0.95],
+        'product_qualities': [2.08, 2.02, 1.96],
+    },
+
+    'market_parameters': {
+        'substitutability': 0.4,  # μ = 0.4
+        'outside_option': 0.0,
+    },
+
+    'benchmarks': {
+        # Per-firm Nash and Monopoly prices
+        'nash_prices': [1.662, 1.577, 1.524],
+        'monopoly_prices': [2.277, 2.177, 2.127],
+        'nash_profits': [0.162, 0.177, 0.174],
+        'monopoly_profits': [0.244, 0.270, 0.263],
+
+        # Average values for overall metrics
+        'nash_price_avg': np.mean([1.662, 1.577, 1.524]),
+        'monopoly_price_avg': np.mean([2.277, 2.177, 2.127]),
+        'nash_profit_avg': np.mean([0.162, 0.177, 0.174]),
+        'monopoly_profit_avg': np.mean([0.244, 0.270, 0.263]),
+    },
+
+    'price_range': {
+        'xi': 0.1,
+        # Per-firm price ranges (for reference)
+        'min_prices': [1.600, 1.517, 1.463],
+        'max_prices': [2.339, 2.237, 2.187],
+
+        # Overall range (for common action space)
+        'min_price': 1.510,  # Common range for 3-firm scenarios
+        'max_price': 2.235,  # Common range for 3-firm scenarios
+    },
+
+    'training': {
+        'episodes': 1000,  # Extended simulation uses 1000 episodes
+    },
+}
+
+# ===============================================================================
+# Experiment 5: Extended 4-Agent Asymmetric Simulation
 # ===============================================================================
 
 EXPERIMENT_4FIRM_ASYMMETRIC = {
     'name': '4-Firm Asymmetric',
     'description': 'Extended DQN simulation with 4 firms having asymmetric parameters',
-    
+
     'market_structure': {
         'n_firms': 4,
         'n_actions': 15,
     },
-    
+
     'firm_parameters': {
-        'marginal_costs': [1.05, 1.10, 0.95, 1.00],
-        'product_qualities': [2.10, 2.00, 1.90, 1.80],
+        'marginal_costs': [1.1, 1.00, 0.95, 0.90],
+        'product_qualities': [2.08, 2.02, 1.96, 1.90],
     },
-    
+
     'market_parameters': {
-        'substitutability': 0.30,  # μ = 0.30 for asymmetric case
+        'substitutability': 0.4,  # μ = 0.4
         'outside_option': 0.0,
     },
-    
+
     'benchmarks': {
         # Per-firm Nash and Monopoly prices
-        'nash_prices': [1.486, 1.486, 1.351, 1.363],
-        'monopoly_prices': [2.121, 2.171, 2.021, 2.071],
-        'nash_profits': [0.136, 0.086, 0.101, 0.063],
-        'monopoly_profits': [0.280, 0.170, 0.200, 0.122],
-        
+        'nash_prices': [1.615, 1.526, 1.473, 1.420],
+        'monopoly_prices': [2.354, 2.254, 2.204, 2.154],
+        'nash_profits': [0.115, 0.126, 0.123, 0.120],
+        'monopoly_profits': [0.202, 0.223, 0.217, 0.212],
+
         # Average values for overall metrics
-        'nash_price_avg': np.mean([1.486, 1.486, 1.351, 1.363]),
-        'monopoly_price_avg': np.mean([2.121, 2.171, 2.021, 2.071]),
-        'nash_profit_avg': np.mean([0.136, 0.086, 0.101, 0.063]),
-        'monopoly_profit_avg': np.mean([0.280, 0.170, 0.200, 0.122]),
+        'nash_price_avg': np.mean([1.615, 1.526, 1.473, 1.420]),
+        'monopoly_price_avg': np.mean([2.354, 2.254, 2.204, 2.154]),
+        'nash_profit_avg': np.mean([0.115, 0.126, 0.123, 0.120]),
+        'monopoly_profit_avg': np.mean([0.202, 0.223, 0.217, 0.212]),
     },
-    
+
     'price_range': {
         'xi': 0.1,
-        # Per-firm price ranges
-        'min_prices': [1.423, 1.418, 1.284, 1.292],
-        'max_prices': [2.185, 2.240, 2.088, 2.142],
-        
+        # Per-firm price ranges (for reference)
+        'min_prices': [1.541, 1.453, 1.400, 1.346],
+        'max_prices': [2.428, 2.327, 2.277, 2.227],
+
         # Overall range (for common action space)
-        'min_price': 1.284,  # Min of all minimum prices
-        'max_price': 2.240,  # Max of all maximum prices
+        'min_price': 1.448,  # Common range for 4-firm scenarios
+        'max_price': 2.325,  # Common range for 4-firm scenarios
+    },
+
+    'training': {
+        'episodes': 1000,  # Extended simulation uses 1000 episodes
     },
 }
 
@@ -255,6 +325,7 @@ ALL_EXPERIMENTS = [
     EXPERIMENT_2FIRM_SYMMETRIC,
     EXPERIMENT_3FIRM_SYMMETRIC,
     EXPERIMENT_4FIRM_SYMMETRIC,
+    EXPERIMENT_3FIRM_ASYMMETRIC,
     EXPERIMENT_4FIRM_ASYMMETRIC,
 ]
 

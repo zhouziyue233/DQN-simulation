@@ -6,9 +6,9 @@ This is a Deep Q-Network (DQN) implementation for studying algorithmic collusion
 
 - As AI increasingly powers pricing algorithms in digital markets, a critical question emerges: **Can pricing algorithms learn to collude spontaneously?**
 
-- Specifically, this question asks when pricing agents interact repeatedly in market, whether they could coordinate on higher prices for maxmizing long-term profits without huamn intervention in this process?
+- Specifically, this question asks when pricing agents interact repeatedly in market, whether they could coordinate on higher prices for maxmizing long-term profits without huamn instructions?
 
-- In a computational experiment, Calvano et al (2020) have found that basic reinforcement learning (RL) algorithms like Q-learning are able to independently learn collusive pricing strategies and achieve supra-competitive profits even without explicit communication.
+- In a seminal work, Calvano et al (2020)'s computational experiment shows that the basic reinforcement learning algorithms *Q-learning* is able to independently learn collusive pricing strategies and achieve supra-competitive profits even without explicit communication.
 
 - However, Q-learning algorithm is primitive in reinforcement learning. It suffers from some technical limitations.
   - Tabular learning method (Q-table) is inefficient or infeasible when state-action space is very large or continuous, making it difficult to simulate the complexity of real market.
@@ -128,11 +128,11 @@ $$
     | Firm $i$ | 0, 1 |
     | Marginal cost $c$ | 1 |
     | Product quality $g$ | 2 |
-    | Substitutability $µ$ | 0.25 |
-    | Nash price $p^N$ | 1.473 |
-    | Monopoly price $p^M$ | 1.925 |
-    | Nash profit $π^N$ | 0.223 |
-    | Monopoly profit $π^M$ | 0.337 |
+    | Substitutability $µ$ | 0.40 |
+    | Nash price $p^N$ | 1.677 |
+    | Monopoly price $p^M$ | 2.071 |
+    | Nash profit $π^N$ | 0.277 |
+    | Monopoly profit $π^M$ | 0.335 |
 
 - **Algorithmic Architecture**
 
@@ -143,16 +143,16 @@ $$
 	| Activation | ReLU |
 	| Optimizer | Adam |
 	| Action space | Discrete prices $m=15$, evenly divided |
-	| Price range* | [1.428, 1.970]|
+	| Price range* | [1.637, 2.110]|
 	| Learning rate $\alpha$ | 0.01, 0.05, 0.1 |
-    | Exploration rate $ε$ | start from 1.0 to 0.01 with ε_decay = 0.995 |
+    | Exploration rate $ε$ | start from 1.0 to 0.01 with ε_decay = 0.998 |
 
     \* Price range is $[\,p^N-ξ(p^M-p^N),\; p^M+ξ(p^M-p^N)\,]$, with $ξ$ set to 0.1 
 
 - **Training Workflow**
     | Phase | Time | Description |
     |---|---|---|
-    | Training | 2,000 episodes | Each episode represents a complete market trading cycle<br>Agents learn optimal pricing strategies through repeated decision-making<br>Agents explore and exploit using ε-greedy strategyε decays from 1.0 gradually to 0.01<br> 2,000 episodes to allow convergence of pricing behaviors|
+    | Training | 2,000 episodes | Each episode represents a complete market trading cycle<br>Agents learn optimal pricing strategies through repeated decision-making<br>Agents explore and exploit using ε-greedy strategy with $ε_decay$ = 0.998<br> 2,000 episodes to allow convergence of pricing behaviors|
     | Evaluation | 100 episodes | 100 post-training episodes are used to assess learning performance<br>During evaluation, agents use learned pricing strategies (with $ε$ set to minimum) |
     | Metric Calculation | last 10,000 timesteps | Only the last 10,000 timesteps of all 100 evaluation episodes are used to compute performance metrics RPDI and Δ to ensure stability and robustness |
 
@@ -165,7 +165,7 @@ $$
 
 #### **2. Extended Simulation**
 
-After runnning the basic DQN simulation, the experiment will extend to 3 or 4 firms with symmetric or asymmetric model parameters, in the same algorithmic architecture and training workflow, to check the robustness in more complex market conditions.
+After running the basic 2-firm DQN simulation, the experiment will extend to 3-firm and 4-firm scenarios, in the same algorithmic architecture and streamlined training workflow, to check the robustness in more complex market conditions.
 
 - 3 firms with symmetric parameters
     | Parameter | Value |
@@ -173,13 +173,14 @@ After runnning the basic DQN simulation, the experiment will extend to 3 or 4 fi
     | Firm $i$ | 0, 1, 2 |
     | Marginal cost $c$ | 1 |
     | Product quality $g$ | 2 |
-    | Substitutability $µ$ | 0.25 |
-    | Nash price $p^N$ | 1.370 |
-    | Monopoly price $p^M$ | 2.000 |
-    | Nash profit $π^N$ | 0.120 |
-    | Monopoly profit $π^M$ | 0.250 |
-    | Price range | [1.307, 2.063] |
-
+    | Substitutability $µ$ | 0.40 |
+    | Nash price $p^N$ | 1.521 |
+    | Monopoly price $p^M$ | 2.252 |
+    | Nash profit $π^N$ | 0.121 |
+    | Monopoly profit $π^M$ | 0.213 |
+    | Price range | [1.510, 2.235]|
+	| Learning rate $\alpha$ | 0.05 |
+    | Training episode | 1000 |
 
 - 4 firms with symmetric parameters
     | Parameter | Value |
@@ -187,25 +188,44 @@ After runnning the basic DQN simulation, the experiment will extend to 3 or 4 fi
     | Firm $i$ | 0, 1, 2, 3 |
     | Marginal cost $c$ | 1 |
     | Product quality $g$ | 2 |
-    | Substitutability $µ$ | 0.25 |
-    | Nash price $p^N$ | 1.331 |
-    | Monopoly price $p^M$ | 2.054 |
-    | Nash profit $π^N$ | 0.081 |
-    | Monopoly profit $π^M$ | 0.201 |
-    | Price range | [1.259, 2.126] |
+    | Substitutability $µ$ | 0.40 |
+    | Nash price $p^N$ | 1.521 |
+    | Monopoly price $p^M$ | 2.252 |
+    | Nash profit $π^N$ | 0.121 |
+    | Monopoly profit $π^M$ | 0.213 |
+    | Price range | [1.448, 2.325] |
+	| Learning rate $\alpha$ | 0.05 |
+    | Training episode | 1000 |
+
+- 3 firms with asymmetric parameters
+    | Parameter | Value |
+    |---|---|
+    | Firm $i$ | 0, 1, 2 |
+    | Marginal cost $c$ | [1.1, 1.00, 0.95] |
+    | Product quality $g$ | [2.08, 2.02, 1.96] |
+    | Substitutability $µ$ | 0.40 |
+    | Nash price $p^N$ | [1.662, 1.577, 1.524] |
+    | Monopoly price $p^M$ | [2.277, 2.177, 2.127] |
+    | Nash profit $π^N$ | [0.162, 0.177, 0.174] |
+    | Monopoly profit $π^M$ | [0.244, 0.270, 0.263] |
+    | Price range | [1.510, 2.235] |
+	| Learning rate $\alpha$ | 0.05 |
+    | Training episode | 1000 |
 
 - 4 firms with asymmetric parameters
     | Parameter | Value |
     |---|---|
     | Firm $i$ | 0, 1, 2, 3 |
-    | Marginal cost $c$ | [1.05, 1.10, 0.95, 1.00] |
-    | Product quality $g$ | [2.10, 2.00, 1.90, 1.80] |
-    | Substitutability $µ$ | 0.30 |
-    | Nash price $p^N$ | [1.486, 1.486, 1.351, 1.363] |
-    | Monopoly price $p^M$ | [2.121, 2.171, 2.021, 2.071] |
-    | Nash profit $π^N$ | [0.136, 0.086, 0.101, 0.063] |
-    | Monopoly profit $π^M$ | [0.280, 0.170, 0.200, 0.122] |
-    | Price range | [1.423, 2.185], [1.418, 2.240], [1.284, 2.088], [1.292, 2.142] |
+    | Marginal cost $c$ | [1.1, 1.00, 0.95, 0.90] |
+    | Product quality $g$ | [2.08, 2.02, 1.96, 1.90] |
+    | Substitutability $µ$ | 0.40 |
+    | Nash price $p^N$ | [1.615, 1.526, 1.473, 1.420] |
+    | Monopoly price $p^M$ | [2.354, 2.254, 2.204, 2.154] |
+    | Nash profit $π^N$ | [0.115, 0.126, 0.123, 0.120] |
+    | Monopoly profit $π^M$ | [0.202, 0.223, 0.217, 0.212] |
+    | Price range | [1.448, 2.325] |
+	| Learning rate $\alpha$ | 0.05 |
+    | Training episode | 1000 |
 
 ## 🚀 Quick Start Guide
 
@@ -213,10 +233,6 @@ After runnning the basic DQN simulation, the experiment will extend to 3 or 4 fi
 ---
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd DQN-simulation
-
 # Install dependencies
 pip install -r requirements.txt
 ```
@@ -224,7 +240,7 @@ pip install -r requirements.txt
 ### Running Experiments
 ---
 
-**Option 1: Interactive Jupyter Notebook (Recommended)**
+**Interactive Jupyter Notebook**
 
 ```bash
 jupyter notebook main_experiment.ipynb
@@ -235,32 +251,6 @@ Run cells sequentially to:
 - Visualize training workflow in real-time
 - Analyze experiment results and their economic significance
 
-**Best for**: learning, experimentation, and detailed analysis
-
-**Option 2: Run All Experiments at Once**
-
-```bash
-python run_experiments.py
-```
-
-This operation will:
-- Run all 4 experiments automatically
-- Generate comprehensive results and visualizations
-- Save results in the `results/` directory
-
-**Best for**: skip training details and conduct overall analysis
-
-**Option 3: Quick Test Mode**
-
-For rapid testing with fewer episodes:
-
-```bash
-python run_experiments.py --quick
-```
-
-This runs all experiments with only 500 episodes (vs 2000 default).
-
-**Best for**: developer testing and results preview
 
 ### Calculate Benchmark Metrics
 ---
@@ -279,16 +269,17 @@ Run all cells to see numerical solutions for each scenario.
 After running experiments, find results in:
 
 - `results/` - Main results directory
-  - `exp1_2firm/` - 2-firm symmetric results
-  - `exp2_3firm/` - 3-firm symmetric results
-  - `exp3_4firm/` - 4-firm symmetric results
-  - `exp4_4firm_asym/` - 4-firm asymmetric results
-  - `summary_*.csv` - Comparative summary
+  - `exp1_2firm_symmetric/` - 2-firm symmetric results
+  - `exp2_3firm_symmetric/` - 3-firm symmetric results
+  - `exp3_4firm_symmetric/` - 4-firm symmetric results
+  - `exp4_3firm_asymmetric/` - 3-firm asymmetric results
+  - `exp5_4firm_asymmetric/` - 4 firm asymmetric results
+  - `summary_*.csv` - Comprehensive summary of different metrics over 5 experiments
   - `comparative_analysis.png` - Visualization
 
 Each experiment folder contains:
-- `training_history.png` - Overall training metrics (6 subplots)
-- `price_profit_dynamics.png` - **Detailed line charts showing price and profit evolution across all training episodes for each firm, with Nash and Monopoly benchmarks as reference lines**
+- `training_history.png` - Training history of different metrics (RPDI, Δ)
+- `price_profit_dynamics.png` - Detailed graphs showing price and profit dynamics across all training episodes for each firm, with Nash and Monopoly benchmarks as reference lines, using expotential moving average (EMA) method to smooth fluctuation.
 - `evaluation_results.json` - Final metrics (RPDI, Δ)
 - `checkpoint_*/` - Model checkpoints
 
@@ -300,7 +291,6 @@ DQN-simulation/
 ├── logit_market_env.py       # Logit Bertrand market environment
 ├── dqn_agents.py             # DQN agent configuration
 ├── market_simulation.py      # Complete simulation process
-├── run_experiments.py        # Running all experiments at once
 ├── main_experiment.ipynb     # Interactive notebook for step-by-step experiment
 ├── benchmark_metrics.ipynb   # Nash/Monopoly calculations
 ├── requirements.txt          # Python environment dependencies
@@ -316,7 +306,7 @@ DQN-simulation/
 ---
 **Author:** Zhou Ziyue (William)<br>
 
-**Last Updated:** 2025-10-22<br>
+**Last Updated:** 2025-10-27<br>
 
 **License:** Copyright © [2025] [Zhou Ziyue]
 All Rights Reserved.
