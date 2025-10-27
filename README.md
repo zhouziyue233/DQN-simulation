@@ -6,7 +6,7 @@ This is a Deep Q-Network (DQN) implementation for studying algorithmic collusion
 
 - As AI increasingly powers pricing algorithms in digital markets, a critical question emerges: **Can pricing algorithms learn to collude spontaneously?**
 
-- Specifically, this question asks when pricing agents interact repeatedly in market, whether they could coordinate on higher prices for maxmizing long-term profits without huamn instructions?
+- Specifically, this question asks when pricing agents interact repeatedly in market, whether they could coordinate on higher prices for maxmizing long-term profits without human instructions?
 
 - In a seminal work, Calvano et al (2020)'s computational experiment shows that the basic reinforcement learning algorithms *Q-learning* is able to independently learn collusive pricing strategies and achieve supra-competitive profits even without explicit communication.
 
